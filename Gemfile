@@ -7,7 +7,7 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-bundler'
-  gem 'ruby-fsevent'
+  gem 'rb-fsevent'
   gem 'growl'
   gem 'pry'
 end
