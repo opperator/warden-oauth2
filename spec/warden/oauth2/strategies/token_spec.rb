@@ -44,6 +44,7 @@ describe Warden::OAuth2::Strategies::Token do
     it 'should fail if there is insufficient scope' do
       token_instance = mock(:respond_to? => true, :expired? => false, :scope? => false)
       subject.stub!(:token).and_return(token_instance)
+      subject.stub!(:scope).and_return(:secret)
       subject._run!
       subject.result.should == :failure
       subject.message.should == "Insufficient scope."

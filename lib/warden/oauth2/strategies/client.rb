@@ -11,7 +11,7 @@ module Warden
           @client = client_from_http_basic || client_from_request_params
 
           if self.client
-            fail "A confidential client is required to access this resource." and return if scope == :confidential_client && public_client?
+            fail "Insufficient scope." and return if scope && client.respond_to?(:scope) && !client.scope?(scope)
             success! self.client, "Authorized with client credentials."
           else
             fail "No client credentials provided."

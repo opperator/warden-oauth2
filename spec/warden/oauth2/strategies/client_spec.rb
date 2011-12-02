@@ -59,13 +59,13 @@ describe Warden::OAuth2::Strategies::Client do
       subject.message.should == "No client credentials provided."
     end
 
-    it 'should fail if it requires a confidential client but no secret is passed' do
-      client_model.stub!(:locate).and_return(mock)
+    it 'should fail if insufficient scope is provided' do
+      client_model.stub!(:locate).and_return(mock(:respond_to? => true, :scope? => false))
       subject.stub!(:params).and_return(:client_id => 'abc')
       subject.stub!(:scope).and_return(:confidential_client)
       subject._run!
       subject.result.should == :failure
-      subject.message.should == "A confidential client is required to access this resource."
+      subject.message.should == "Insufficient scope."
     end
   end
 end

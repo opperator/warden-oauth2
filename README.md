@@ -17,6 +17,16 @@ class MyAPI < Grape::API
 
     config.default_strategies :bearer, :client, :public
   end
+
+  helpers do
+    def warden; env['warden'] end
+  end
+
+  resources :hamburgers do
+    before do
+      warden.authenticate! scope: :hamburgers
+    end
+  end
 end
 ```
 
@@ -52,6 +62,12 @@ class ClientApplication
     # Should return a client application matching the client_id
     # provided, but should ONLY match client_secret if it is
     # provided.
+  end
+
+  # OPTIONAL
+  def scope?(scope)
+    # True if the client should be able to access the scope passed
+    # (usually a symbol) without having an access token.
   end
 end
 ```
