@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Warden::Oauth2::VERSION
 
   gem.add_dependency 'warden'
+  gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rack-test'
 end
