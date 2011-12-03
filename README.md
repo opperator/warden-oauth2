@@ -6,7 +6,10 @@ provider.
 
 ## Usage
 
+### Grape API Example
+
 ```ruby
+require 'grape'
 require 'warden-oauth2'
 
 class MyAPI < Grape::API
