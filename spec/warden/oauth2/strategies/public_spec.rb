@@ -20,7 +20,7 @@ describe Warden::OAuth2::Strategies::Public do
     subject.stub!(:scope).and_return(:user)
     subject._run!
     subject.should be_halted
-    subject.message.should == "The requested resource requires a 'user' authorization scope."
+    subject.message.should == "insufficient_scope"
     subject.result.should == :failure
   end
 end

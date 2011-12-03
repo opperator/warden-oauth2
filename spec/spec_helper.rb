@@ -8,5 +8,5 @@ require 'rack/test'
 require 'warden-oauth2'
 
 RSpec.configure do |config|
-
+  config.include Rack::Test::Methods
 end

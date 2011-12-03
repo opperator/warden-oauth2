@@ -20,7 +20,9 @@ module Warden
       yield config
     end
 
+    autoload :FailureApp, 'warden/oauth2/failure_app'
     module Strategies
+      autoload :Base,   'warden/oauth2/strategies/base'
       autoload :Public, 'warden/oauth2/strategies/public'
       autoload :Token,  'warden/oauth2/strategies/token'
       autoload :Client, 'warden/oauth2/strategies/client'

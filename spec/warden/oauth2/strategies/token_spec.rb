@@ -30,7 +30,8 @@ describe Warden::OAuth2::Strategies::Token do
       subject.stub!(:token).and_return(nil)
       subject._run!
       subject.result.should == :failure
-      subject.message.should == "Invalid access token."
+      subject.message.should == "invalid_request"
+      subject.error_status.should == 400
     end
 
     it 'should fail if the access token is expired' do
@@ -38,7 +39,8 @@ describe Warden::OAuth2::Strategies::Token do
       subject.stub!(:token).and_return(token_instance)
       subject._run!
       subject.result.should == :failure
-      subject.message.should == "Expired access token."
+      subject.message.should == "invalid_token"
+      subject.error_status.should == 401
     end
 
     it 'should fail if there is insufficient scope' do
@@ -47,7 +49,8 @@ describe Warden::OAuth2::Strategies::Token do
       subject.stub!(:scope).and_return(:secret)
       subject._run!
       subject.result.should == :failure
-      subject.message.should == "Insufficient scope."
+      subject.message.should == "insufficient_scope"
+      subject.error_status.should == 403
     end
   end
 end

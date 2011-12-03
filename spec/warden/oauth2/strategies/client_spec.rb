@@ -56,7 +56,8 @@ describe Warden::OAuth2::Strategies::Client do
     it 'should fail if no credentials are passed' do
       subject._run!
       subject.result.should == :failure
-      subject.message.should == "No client credentials provided."
+      subject.message.should == "invalid_client"
+      subject.error_status.should == 401
     end
 
     it 'should fail if insufficient scope is provided' do
@@ -65,7 +66,8 @@ describe Warden::OAuth2::Strategies::Client do
       subject.stub!(:scope).and_return(:confidential_client)
       subject._run!
       subject.result.should == :failure
-      subject.message.should == "Insufficient scope."
+      subject.message.should == "insufficient_scope"
+      subject.error_status.should == 403
     end
   end
 end

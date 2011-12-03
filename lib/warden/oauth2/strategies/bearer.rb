@@ -3,7 +3,7 @@ require 'warden-oauth2'
 module Warden
   module OAuth2
     module Strategies
-      class Bearer < Warden::OAuth2::Strategies::Token
+      class Bearer < Token
         def valid?
           !!token_string
         end
