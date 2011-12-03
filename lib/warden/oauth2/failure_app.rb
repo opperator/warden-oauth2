@@ -15,7 +15,7 @@ module Warden
 
         headers['X-Accepted-OAuth-Scopes'] = (strategy.scope || :public).to_s
 
-        Rack::Response.new([body], status, headers).finish
+        [status, headers, [body]]
       end
     end
   end
