@@ -19,6 +19,7 @@ class MyAPI < Grape::API
     strategies.add :public, Warden::OAuth2::Strategies::Public
 
     config.default_strategies :bearer, :client, :public
+    config.failure_app Warden::OAuth2::FailureApp
   end
 
   helpers do
