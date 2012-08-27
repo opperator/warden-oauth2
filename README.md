@@ -1,4 +1,4 @@
-# Warden::OAuth2 [![CI Status](https://secure.travis-ci.org/opperator/warden-oauth2.png")](http://travis-ci.org/opperator/warden-oauth2)
+# Warden::OAuth2 [![CI Status](https://secure.travis-ci.org/opperator/warden-oauth2.png)](http://travis-ci.org/opperator/warden-oauth2)
 
 This library provides a robust set of authorization strategies for
 Warden meant to be used to implement an OAuth 2.0 ([draft 22][oauth2])
