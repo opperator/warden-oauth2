@@ -22,7 +22,7 @@ module Warden
         end
 
         def token_string_from_request_params
-          params[:access_token]
+          params["access_token"]
         end
       end
     end
