@@ -8,8 +8,8 @@ module Warden
           if scope && scope.to_sym != :public
             fail! "unauthorized_client" and return
           end
-
-          success! nil
+          
+          success! 'public'#PublicAPIConsumer.new
         end
 
         def error_status
