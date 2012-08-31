@@ -9,7 +9,11 @@ module Warden
             fail! "unauthorized_client" and return
           end
           
-          success! 'public'#PublicAPIConsumer.new
+          unless Warden::OAuth2.config.public_model
+            success! 'public' 
+          else
+            success! Warden::OAuth2.config.public_model.new
+          end
         end
 
         def error_status

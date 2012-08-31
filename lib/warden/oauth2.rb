@@ -4,11 +4,12 @@ require 'warden/oauth2/version'
 module Warden
   module OAuth2
     class Configuration
-      attr_accessor :client_model, :token_model
+      attr_accessor :client_model, :token_model, :public_model
 
       def initialize
         self.client_model = ClientApplication if defined?(ClientApplication)
-        self.token_model = AccessToken if defined?(AccessToken)
+        self.token_model  = AccessToken if defined?(AccessToken)
+        self.public_model = PublicAPIConsumer if defined?(PublicAPIConsumer)
       end
     end
 
