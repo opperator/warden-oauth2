@@ -11,7 +11,7 @@ module Warden
         def authenticate!
           if token
             fail! "invalid_token" and return if token.respond_to?(:expired?) && token.expired?
-            fail! "insufficient_scope" and return if scope && token.respond_to?(:scope?) && !token.scope?(scope)
+            fail! "insufficient_scope" and return if scope && token.respond_to?(:scope?) && !token.scope?(scope, env)
             success! token
           else
             fail! "invalid_request" and return unless token
