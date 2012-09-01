@@ -6,7 +6,7 @@ module Warden
       class Public < Base
         def authenticate!
           if scope && scope.to_sym != :public
-            fail! "unauthorized_client" and return
+            fail! "insufficient_scope" and return
           end
           
           unless Warden::OAuth2.config.public_model
