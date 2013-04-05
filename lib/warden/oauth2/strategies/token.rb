@@ -19,7 +19,7 @@ module Warden
         end
 
         def token
-          Warden::OAuth2.config.token_model.locate(token_string)
+          @token ||= Warden::OAuth2.config.token_model.locate(token_string)
         end
 
         def token_string
