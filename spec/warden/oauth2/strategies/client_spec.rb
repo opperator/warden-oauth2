@@ -26,18 +26,18 @@ describe Warden::OAuth2::Strategies::Client do
 
   describe '#client_from_request_params' do
     it 'should be nil if no client_id is provided' do
-      subject.stub!(:params).and_return({:client_secret => 'abc'})
+      subject.stub!(:params).and_return({'client_secret' => 'abc'})
       subject.client_from_request_params.should be_nil
     end
 
     it 'should call through to locate if a client_id is present' do
-      subject.stub!(:params).and_return({:client_id => 'abc'})
+      subject.stub!(:params).and_return({'client_id' => 'abc'})
       client_model.should_receive(:locate).with('abc',nil)
       subject.client_from_request_params
     end
 
     it 'should call through to locate if a client_id and secret are present' do
-      subject.stub!(:params).and_return({:client_id => 'abc', :client_secret => 'def'})
+      subject.stub!(:params).and_return({'client_id' => 'abc', 'client_secret' => 'def'})
       client_model.should_receive(:locate).with('abc','def')
       subject.client_from_request_params
     end
@@ -47,7 +47,7 @@ describe Warden::OAuth2::Strategies::Client do
     it 'should succeed if a client is around' do
       client_instance = mock
       client_model.stub!(:locate).and_return(client_instance)
-      subject.stub!(:params).and_return(:client_id => 'awesome')
+      subject.stub!(:params).and_return('client_id' => 'awesome')
       subject._run!
       subject.user.should == client_instance
       subject.result.should == :success
@@ -62,7 +62,7 @@ describe Warden::OAuth2::Strategies::Client do
 
     it 'should fail if insufficient scope is provided' do
       client_model.stub!(:locate).and_return(mock(:respond_to? => true, :scope? => false))
-      subject.stub!(:params).and_return(:client_id => 'abc')
+      subject.stub!(:params).and_return('client_id' => 'abc')
       subject.stub!(:scope).and_return(:confidential_client)
       subject._run!
       subject.result.should == :failure

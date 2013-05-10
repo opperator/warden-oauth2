@@ -25,7 +25,7 @@ module Warden
         end
 
         def client_from_request_params
-          @client_id, @client_secret = params[:client_id], params[:client_secret]
+          @client_id, @client_secret = params['client_id'], params['client_secret']
           return nil unless self.client_id
           Warden::OAuth2.config.client_model.locate(@client_id, @client_secret)
         end
