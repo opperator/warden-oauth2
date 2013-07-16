@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe Warden::OAuth2::FailureApp do
   let(:app){ subject }
-  let(:warden){ mock(:winning_strategy => @strategy || strategy) }
-  let(:strategy){ mock(:message => 'invalid_request') }
+  let(:warden){ double(:winning_strategy => @strategy || strategy) }
+  let(:strategy){ double(:message => 'invalid_request') }
 
   context 'with all info' do
     before do
-      @strategy = mock(:error_status => 502, :message => 'custom', :scope => 'random')
+      @strategy = double(:error_status => 502, :message => 'custom', :scope => 'random')
       get '/unauthenticated', {}, 'warden' => warden
     end
 

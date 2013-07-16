@@ -11,13 +11,13 @@ describe Warden::OAuth2::Strategies::Public do
   end
 
   it 'should succeed with a :public scope' do
-    subject.stub!(:scope).and_return(:public)
+    subject.stub(:scope).and_return(:public)
     subject._run!
     subject.result.should == :success
   end
 
   it 'should fail and halt with another scope' do
-    subject.stub!(:scope).and_return(:user)
+    subject.stub(:scope).and_return(:user)
     subject._run!
     subject.should be_halted
     subject.message.should == "insufficient_scope"
