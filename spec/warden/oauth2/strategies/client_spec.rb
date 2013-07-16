@@ -11,34 +11,34 @@ describe Warden::OAuth2::Strategies::Client do
 
   describe '#client_from_http_basic' do
     it 'should call through to the client application class locate method' do
-      subject.stub(:env).and_return({
+      allow(subject).to receive(:env).and_return({
         'HTTP_AUTHORIZATION' => "Basic #{Base64.encode64('id:secret')}"
       })
 
-      client_model.should_receive(:locate).with('id','secret').and_return("booya")
-      subject.client_from_http_basic.should == "booya"
+      expect(client_model).to receive(:locate){['id','secret']}.and_return("booya")
+      expect(subject.client_from_http_basic).to eq("booya")
     end
 
     it 'should return nil if no HTTP Basic credentials are provided' do
-      subject.client_from_http_basic.should be_nil
+      expect(subject.client_from_http_basic).to eq(nil)
     end
   end
 
   describe '#client_from_request_params' do
     it 'should be nil if no client_id is provided' do
-      subject.stub(:params).and_return({:client_secret => 'abc'})
-      subject.client_from_request_params.should be_nil
+      allow(subject).to receive(:params).and_return({:client_secret => 'abc'})
+      expect(subject.client_from_request_params).to eq(nil)
     end
 
     it 'should call through to locate if a client_id is present' do
-      subject.stub(:params).and_return({"client_id" => 'abc'})
-      client_model.should_receive(:locate).with('abc',nil)
+      allow(subject).to receive(:params).and_return({"client_id" => 'abc'})
+      expect(client_model).to receive(:locate) {['abc', nil]}
       subject.client_from_request_params
     end
 
     it 'should call through to locate if a client_id and secret are present' do
-      subject.stub(:params).and_return({"client_id" => 'abc', "client_secret" => 'def'})
-      client_model.should_receive(:locate).with('abc','def')
+      allow(subject).to receive(:params).and_return({"client_id" => 'abc', "client_secret" => 'def'})
+      expect(client_model).to receive(:locate) {['abc','def']}
       subject.client_from_request_params
     end
   end
@@ -46,28 +46,28 @@ describe Warden::OAuth2::Strategies::Client do
   describe '#authorize!' do
     it 'should succeed if a client is around' do
       client_instance = double
-      client_model.stub(:locate).and_return(client_instance)
-      subject.stub(:params).and_return("client_id" => 'awesome')
+      allow(client_model).to receive(:locate).and_return(client_instance)
+      allow(subject).to receive(:params).and_return("client_id" => 'awesome')
       subject._run!
-      subject.user.should == client_instance
-      subject.result.should == :success
+      expect(subject.user).to eq(client_instance)
+      expect(subject.result).to eq(:success)
     end
 
     it 'should fail if no credentials are passed' do
       subject._run!
-      subject.result.should == :failure
-      subject.message.should == "invalid_client"
-      subject.error_status.should == 401
+      expect(subject.result).to eq(:failure)
+      expect(subject.message).to eq("invalid_client")
+      expect(subject.error_status).to eq(401)
     end
 
     it 'should fail if insufficient scope is provided' do
-      client_model.stub(:locate).and_return(double(:respond_to? => true, :scope? => false))
-      subject.stub(:params).and_return("client_id" => 'abc')
-      subject.stub(:scope).and_return(:confidential_client)
+      allow(client_model).to receive(:locate).and_return(double(:respond_to? => true, :scope? => false))
+      allow(subject).to receive(:params).and_return("client_id" => 'abc')
+      allow(subject).to receive(:scope).and_return(:confidential_client)
       subject._run!
-      subject.result.should == :failure
-      subject.message.should == "insufficient_scope"
-      subject.error_status.should == 403
+      expect(subject.result).to eq(:failure)
+      expect(subject.message).to eq("insufficient_scope")
+      expect(subject.error_status).to eq(403)
     end
   end
 end
