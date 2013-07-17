@@ -8,6 +8,11 @@ module Warden
           !!token_string
         end
 
+        def authenticate!
+          fail! "invalid_token" and return if token_string && !token
+          super
+        end
+
         def token_string
           token_string_from_header || token_string_from_request_params
         end
@@ -22,7 +27,7 @@ module Warden
         end
 
         def token_string_from_request_params
-          params[:access_token]
+          params["access_token"]
         end
       end
     end

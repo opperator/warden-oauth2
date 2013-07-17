@@ -7,20 +7,20 @@ describe Warden::OAuth2::Strategies::Public do
 
   it 'should succeed with no scope' do
     subject._run!
-    subject.result.should == :success
+    expect(subject.result).to eq(:success)
   end
 
   it 'should succeed with a :public scope' do
-    subject.stub!(:scope).and_return(:public)
+    allow(subject).to receive(:scope).and_return(:public)
     subject._run!
-    subject.result.should == :success
+    expect(subject.result).to eq(:success)
   end
 
   it 'should fail and halt with another scope' do
-    subject.stub!(:scope).and_return(:user)
+    allow(subject).to receive(:scope).and_return(:user)
     subject._run!
-    subject.should be_halted
-    subject.message.should == "insufficient_scope"
-    subject.result.should == :failure
+    expect(subject).to be_halted
+    expect(subject.message).to eq("insufficient_scope")
+    expect(subject.result).to eq(:failure)
   end
 end

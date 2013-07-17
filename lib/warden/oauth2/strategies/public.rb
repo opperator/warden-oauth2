@@ -8,8 +8,12 @@ module Warden
           if scope && scope.to_sym != :public
             fail! "insufficient_scope" and return
           end
-
-          success! nil
+          
+          unless Warden::OAuth2.config.public_model
+            success! 'public' 
+          else
+            success! Warden::OAuth2.config.public_model.new
+          end
         end
 
         def error_status

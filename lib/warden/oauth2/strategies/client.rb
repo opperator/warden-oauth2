@@ -11,7 +11,7 @@ module Warden
           @client = client_from_http_basic || client_from_request_params
 
           if self.client
-            fail "insufficient_scope" and return if scope && client.respond_to?(:scope) && !client.scope?(scope)
+            fail "insufficient_scope" and return if scope && client.respond_to?(:scope?) && !client.scope?(scope, env)
             success! self.client
           else
             fail "invalid_client"
@@ -25,7 +25,7 @@ module Warden
         end
 
         def client_from_request_params
-          @client_id, @client_secret = params[:client_id], params[:client_secret]
+          @client_id, @client_secret = params["client_id"], params["client_secret"]
           return nil unless self.client_id
           Warden::OAuth2.config.client_model.locate(@client_id, @client_secret)
         end
