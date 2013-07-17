@@ -28,5 +28,14 @@ describe Warden::OAuth2::Strategies::Bearer do
       subject.stub!(:params).and_return(:access_token => 'abc')
       subject.token_string_from_request_params.should == 'abc'
     end
+
+    it 'should fail if there is not a token' do
+      allow(subject).to receive(:params).and_return("access_token" => 'abc')
+      allow(subject).to receive(:token).and_return(nil)
+      subject.authenticate!
+      expect(subject.result).to eq(:failure)
+      expect(subject.message).to eq("invalid_token")
+      expect(subject.error_status).to eq(401)
+    end
   end
 end
