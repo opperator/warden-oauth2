@@ -14,9 +14,9 @@ require 'warden-oauth2'
 
 class MyAPI < Grape::API
   use Warden::Manager do |config|
-    strategies.add :bearer, Warden::OAuth2::Strategies::Bearer
-    strategies.add :client, Warden::OAuth2::Strategies::Client
-    strategies.add :public, Warden::OAuth2::Strategies::Public
+    config.strategies.add :bearer, Warden::OAuth2::Strategies::Bearer
+    config.strategies.add :client, Warden::OAuth2::Strategies::Client
+    config.strategies.add :public, Warden::OAuth2::Strategies::Public
 
     config.default_strategies :bearer, :client, :public
     config.failure_app Warden::OAuth2::FailureApp
