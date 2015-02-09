@@ -14,12 +14,12 @@ module Warden
             fail! "insufficient_scope" and return if scope && token.respond_to?(:scope?) && !token.scope?(scope)
             success! token
           else
-            fail! "invalid_request" and return unless token
+            fail! "invalid_request" and return
           end
         end
 
         def token
-          Warden::OAuth2.config.token_model.locate(token_string)
+          @token ||= Warden::OAuth2.config.token_model.locate(token_string)
         end
 
         def token_string
