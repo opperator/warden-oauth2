@@ -15,6 +15,13 @@ describe Warden::OAuth2::Strategies::Token do
       subject.stub!(:token_string).and_return('abc')
       subject.token
     end
+
+    it 'should be memorize' do
+      token_instance = mock
+      token_model.should_receive(:locate).once.with('abc').and_return(token_instance)
+      subject.stub!(:token_string).and_return('abc')
+      2.times { subject.token }
+    end
   end
 
   describe '#authenticate!' do
