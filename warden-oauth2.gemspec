@@ -7,6 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{OAuth 2.0 strategies for Warden}
   gem.summary       = %q{OAuth 2.0 strategies for Warden}
   gem.homepage      = "https://github.com/opperator/warden-oauth2"
+  gem.license       = "MIT"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
